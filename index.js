@@ -28,7 +28,14 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", (_, res) => {
-  res.send("Running....");
+  res.send({
+    "message":"Running ...",
+    "BOT_TOKEN": BOT_TOKEN,
+    "CHAT_ID": CHAT_ID,
+    "WEB_APP_URL": WEB_APP_URL,
+    "INVITE_LINK": INVITE_LINK
+  });
+  
 });
 
 app.post("/post", async (req, res) => {
