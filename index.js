@@ -1,6 +1,7 @@
 require("dotenv/config");
 const express = require("express");
 const cors = require("cors");
+const axios = require('axios');
 const Telegram = require("node-telegram-bot-api");
 
 const PORT = process.env.PORT || 8000;
@@ -29,15 +30,28 @@ app.use(cors());
 
 app.get("/", (_, res) => {
   res.send({
-    "message":"Running ...",
-    "BOT_TOKEN": BOT_TOKEN,
-    "CHAT_ID": CHAT_ID,
-    "WEB_APP_URL": WEB_APP_URL,
-    "INVITE_LINK": INVITE_LINK
+    "message":"Running ..."
+    // "BOT_TOKEN": BOT_TOKEN,
+    // "CHAT_ID": CHAT_ID,
+    // "WEB_APP_URL": WEB_APP_URL,
+    // "INVITE_LINK": INVITE_LINK
   });
   
 });
 
+app.get("/test-telegram-send", async() => {
+  try {
+    const MESSAGE="TEST send1234";
+    const TELEGRAM_API_URL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+    const response = await axios.post(TELEGRAM_API_URL, {
+      chat_id: CHAT_ID,
+      text: MESSAGE,
+    });
+    console.log('Message sent:', response.data);
+  } catch (error) {
+    console.error('Error sending message:', error.response ? error.response.data : error.message);
+  }
+});
 app.post("/post", async (req, res) => {
   const body = req.body;
 
